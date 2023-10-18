@@ -15,12 +15,17 @@ function Calculator({ workouts, allowSound }) {
     setDuration((number * sets * speed) / 60 + (sets - 1) * durationBreak);
   }, [number, sets, speed, durationBreak]);
 
-  const playSound = function () {
-    if (!allowSound) return;
-    const sound = new Audio(clickSound);
-    sound.play();
-  };
-
+  useEffect(
+    function () {
+      const playSound = function () {
+        if (!allowSound) return;
+        const sound = new Audio(clickSound);
+        sound.play();
+      };
+      playSound();
+    },
+    [duration, allowSound]
+  );
   function handleInc() {
     setDuration((duration) => Math.floor(duration) + 1);
   }
@@ -78,7 +83,6 @@ function Calculator({ workouts, allowSound }) {
       <section>
         <button
           onClick={() => {
-            playSound();
             handleDec();
           }}
         >
@@ -91,7 +95,6 @@ function Calculator({ workouts, allowSound }) {
         </p>
         <button
           onClick={() => {
-            playSound();
             handleInc();
           }}
         >
